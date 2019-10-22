@@ -10,7 +10,7 @@ def startCounter(project):
             currentTimestamp = int(time.time())
             file.write(str(currentTimestamp))
     except NameError as error:
-        print(e.value)
+        print(error.value)
 
 def stopCounter(project, percentage):
     try:
@@ -22,7 +22,7 @@ def stopCounter(project, percentage):
         dataHandler.removeProjectTempFile(project)
         _saveNewRecordToDataFile(project, startTime, currentTimestamp, timeSpent,percentage)
     except NameError as error:
-        print(e.value)
+        print(error.value)
 
 def _saveNewRecordToDataFile(project, startTime, endTime, timeSpent, percentage):
     with dataHandler.getProjectDataFile(project) as file:
