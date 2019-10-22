@@ -7,6 +7,7 @@ if not os.path.isdir(dataPath):
 projectFolderDataRoot = os.path.join(dataPath,'{}')
 tempFileTemplate = os.path.join(projectFolderDataRoot,'data.temp')
 dataFileTemplate = os.path.join(projectFolderDataRoot,'data.dat')
+dataFileRecordTemplate = '{}|{}|{}|{}\n'
 
 
 def doesProjectExist(project):
@@ -15,7 +16,12 @@ def doesProjectExist(project):
 def listAllProjects():
     return [dir for dir in os.listdir(dataPath) if doesProjectExist(dir)]
 
+def createProject(project):
+    if doesProjectExist(project): raise NameError('Project of that name already exists')
+    os.mkdir(projectFolderDataRoot.format(project))
+
 def doesTempFileExist(project):
+    if not doesProjectExist(project): raise NameError('Project of that name does not exist')
     return os.path.isfile(tempFileTemplate.format(project))
 
 def getProjectTempFile(project, fileArgs):
@@ -29,9 +35,10 @@ def removeProjectTempFile(project):
     os.remove(filePath)
 
 def doesDataFileExist(project):
+    if not doesProjectExist(project): raise NameError('Project of that name does not exist')
     return os.path.isfile(dataFileTemplate.format(project))
 
-def getProjectDataFile(project, fileArgs):
+def getProjectDataFile(project):
     if not doesProjectExist(project): raise NameError('Project of that name does not exist')
     filePath = dataFileTemplate.format(project)
-    return open(filePath, fileArgs)
+    return open(filePath, 'a+')
