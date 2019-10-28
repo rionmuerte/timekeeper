@@ -52,6 +52,3 @@ def getDefaultParser():
     reportParser.add_argument('-o', '--name', dest='name', default='default', metavar='name',
                             help='Output name of generated report (default - "raport-[current date]")')
     return parser
-parser = getDefaultParser()
-aa = parser.parse_args()
-print(vars(aa))

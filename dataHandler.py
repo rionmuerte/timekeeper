@@ -18,9 +18,17 @@ def doesProjectExist(project):
 def listAllProjects():
     return [dir for dir in os.listdir(dataPath) if doesProjectExist(dir)]
 
+def listAllTemplates():
+    return [file.split('.')[0] for file in os.listdir(templatesRoot) if os.path.isfile(os.path.join(templatesRoot, file))]
+
 def createProject(project):
     if doesProjectExist(project): raise NameError('Project of that name already exists')
     os.mkdir(projectFolderDataRoot.format(project))
+
+def removeProject(project):
+    if not doesProjectExist(project): raise NameError('Project of that name does not exist')
+    directory = projectFolderDataRoot.format(project)
+    os.remove(directory)
 
 def doesTempFileExist(project):
     if not doesProjectExist(project): raise NameError('Project of that name does not exist')
@@ -45,11 +53,15 @@ def getProjectDataFile(project, fileArgs='a+'):
     filePath = dataFileTemplate.format(project)
     return open(filePath, fileArgs)
 
-def getReportFile(project, template):
+def getReportFile(project, template, customName = None):
     if not doesProjectExist(project): raise NameError('Project of that name does not exist')
-    import templateReader
     reportDate = str(datetime.datetime.now().date())
-    fileName = 'report-' + project + '-' + reportDate + templateReader.getJsonValue(template,'extension')
+    import templateReader
+    extension = templateReader.getJsonValue(template,'extension')
+    if customName is not None:
+        fileName = customName + extension
+    else: 
+        fileName = 'report-' + project + '-' + reportDate + extension
     return open(fileName,'w+')
 
 def getDateFromeTimestamp(timestamp):
