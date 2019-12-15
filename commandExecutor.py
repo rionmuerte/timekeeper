@@ -16,7 +16,7 @@ def _startActivity(activity):
         import counterOperations
         counterOperations.startCounter(activity)
     except Exception as e:
-        print('Could not start {}'.formmat(activity))
+        print('Could not start {}'.format(activity))
         print('Exception that occured')
         print(e)
 
@@ -161,10 +161,12 @@ def _showAllActivities(name):
     import dataHandler
     activities = dataHandler.listAllProjects()
     print('List of all activities:')
-    if len(activities) is 0: print('Currently you have no activities')
+    if len(activities) == 0: print('Currently you have no activities')
     for activity in activities:
         if name is None or name in activity:
             print(activity)
 
 def commandReport(parserArguments):
-    print('Not yet implemented')
+    import reportingTool
+    arguments = reportingTool.prepareArguments(parserArguments)
+    print(arguments)

@@ -55,12 +55,12 @@ def getProjectDataFile(project, fileArgs='a+'):
 
 def getReportFile(project, template, customName = None):
     if not doesProjectExist(project): raise NameError('Project of that name does not exist')
-    reportDate = str(datetime.datetime.now().date())
     import templateReader
     extension = templateReader.getJsonValue(template,'extension')
     if customName is not None:
         fileName = customName + extension
     else: 
+        reportDate = str(datetime.datetime.now().date())
         fileName = 'report-' + project + '-' + reportDate + extension
     return open(fileName,'w+')
 

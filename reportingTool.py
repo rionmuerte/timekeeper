@@ -8,19 +8,18 @@ def printTheReport(project, dateFrom, dateTo, template):
             return print("Selected project does not yet have history to report")
         report = _prepareReport(project, dateFrom, dateTo, template)
         print(report)
-    except NameError as error:
-        print(error.value)
+    except NameError as e:
+        print(e)
 
-def saveTheReport(project, dateFrom, dateTo, template):
+def saveTheReport(project, dateFrom, dateTo, template, name):
     try:
         if not dataHandler.doesDataFileExist(project):
             return print("Selected project does not yet have history to report")
         report = _prepareReport(project, dateFrom, dateTo, template)
-        with dataHandler.getReportFile(project, template) as file:
+        with dataHandler.getReportFile(project, template, name) as file:
             file.write(report)
-
-    except NameError as error:
-        print(error.value)
+    except NameError as e:
+        print(e)
 
 def _prepareReport(project, dateFrom, dateTo, template):
     try:
@@ -29,8 +28,8 @@ def _prepareReport(project, dateFrom, dateTo, template):
         listOfRecords = _getListOfRecords(project, dateFrom, dateTo)
         reportString = _generateReportString(project, dateFrom, dateTo, template, listOfRecords)
         return reportString
-    except NameError as error:
-        print(error.value)
+    except NameError as e:
+        print(e)
     
 def _generateReportString(project, dateFrom, dateTo, template, listOfRecords):
     reportString = ''
@@ -75,3 +74,18 @@ def _getListOfRecords(project, dateFrom, dateTo):
             start, end, duration, percentage = [int(text) for text in record.split('|')]
             if start >= dateFrom and end <= dateTo: listOfRecords.append((start,end,duration,percentage))
     return listOfRecords
+
+def prepareArguments(data):
+    startDate = data['startDate']
+    endDate = data['endDate']
+    template = data['template']
+    name = (data['name'], None)[data['name'] == 'default']
+    return startDate, endDate, template, name
+
+def getStartDateFromString(date):
+    print(date, date=='default')
+    if date ==  'default':
+        import time
+        d1 = datetime.datetime.fromtimestamp(time.time()).replace(day=1).timestamp()-datetime.timedelta(days = 1).total_seconds()-1
+        return getStartDateFromString(datetime.datetime.fromtimestamp(d1).strftime('%d.%m.%Y'))
+    return datetime.datetime.strptime(date, '%d.%m.%Y').timestamp() + datetime.timedelta(days = 1).total_seconds() - 1
