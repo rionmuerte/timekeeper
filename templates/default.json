@@ -1,0 +1,6 @@
+{
+    "header" : "_________________________________________________________________________________________________\n|                        Report for period from {dateFrom} to {dateTo}                        |\n|_______________________________________________________________________________________________|\n|   Date   |  Start Time   |  Finish Time  |   Total Duration   | Effective Duration |Percentage|\n",
+    "row" : "|{date:>10}|{startTime:>15}|{endTime:>15}|{totalDuration:>20}|{effectiveDuration:>20}|{percentage:>10}|\n",
+    "footer" : "|_______________________________________________________________________________________________|\n|                                                            Total time spent working: {effectiveTimeSpent:<9}|\n",
+    "extension" : ".txt"
+}
