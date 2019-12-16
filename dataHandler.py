@@ -72,3 +72,17 @@ def getTimeFromeTimestamp(timestamp):
 
 def durationFromSeconds(seconds):
     return str(datetime.timedelta(seconds=seconds)).split('.')[0]
+
+def getEndDateFromString(date):
+    if date ==  'default':
+        import time
+        d1 = datetime.datetime.fromtimestamp(time.time()).replace(day=1).timestamp()-datetime.timedelta(days = 1).total_seconds()-1
+        return getEndDateFromString(datetime.datetime.fromtimestamp(d1).strftime('%d.%m.%Y'))
+    return datetime.datetime.strptime(date, '%d.%m.%Y').timestamp() + datetime.timedelta(days = 1).total_seconds() - 1
+
+def getStartDateFromString(date):
+    if date == 'default':
+        import time
+        d1 = datetime.datetime.fromtimestamp(datetime.datetime.fromtimestamp(time.time()).replace(day=1).timestamp()-datetime.timedelta(days=1).total_seconds()).replace(day=1)
+        return getStartDateFromString(d1.strftime('%d.%m.%Y'))
+    return datetime.datetime.strptime(date, '%d.%m.%Y').timestamp()

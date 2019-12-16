@@ -169,4 +169,4 @@ def _showAllActivities(name):
 def commandReport(parserArguments):
     import reportingTool
     arguments = reportingTool.prepareArguments(parserArguments)
-    print(arguments)
+    reportingTool.saveTheReport(*arguments)

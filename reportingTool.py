@@ -76,16 +76,9 @@ def _getListOfRecords(project, dateFrom, dateTo):
     return listOfRecords
 
 def prepareArguments(data):
-    startDate = data['startDate']
-    endDate = data['endDate']
+    startDate = dataHandler.getStartDateFromString(data['startDate'])
+    endDate = dataHandler.getEndDateFromString(data['endDate'])
     template = data['template']
     name = (data['name'], None)[data['name'] == 'default']
-    return startDate, endDate, template, name
-
-def getStartDateFromString(date):
-    print(date, date=='default')
-    if date ==  'default':
-        import time
-        d1 = datetime.datetime.fromtimestamp(time.time()).replace(day=1).timestamp()-datetime.timedelta(days = 1).total_seconds()-1
-        return getStartDateFromString(datetime.datetime.fromtimestamp(d1).strftime('%d.%m.%Y'))
-    return datetime.datetime.strptime(date, '%d.%m.%Y').timestamp() + datetime.timedelta(days = 1).total_seconds() - 1
+    project = data['activity']
+    return project, startDate, endDate, template, name
